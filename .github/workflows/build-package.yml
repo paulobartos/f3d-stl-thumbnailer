@@ -28,7 +28,7 @@ jobs:
 
       - name: Build package
         run: |
-          chown -R builder:builder .
+          chown -R builder:builder packaging/arch
           cd packaging/arch
           sudo -u builder makepkg -f --noconfirm
 
@@ -36,4 +36,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
           gh release upload "${GITHUB_REF_NAME}" packaging/arch/*.pkg.tar.zst --clobber
