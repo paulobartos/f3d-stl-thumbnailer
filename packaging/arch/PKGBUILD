@@ -1,0 +1,23 @@
+# Maintainer: Paulo Roberto Cunha Bartos <paulo.bartos@gmail.com>
+pkgname=f3d-stl-thumbnailer
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="KDE Dolphin thumbnailer for STL files, rendered headlessly with F3D"
+arch=('x86_64')
+url="https://github.com/paulobartos/f3d-stl-thumbnailer"
+license=('MIT')
+depends=('f3d' 'kio' 'qt6-base')
+makedepends=('cmake' 'extra-cmake-modules')
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/paulobartos/f3d-stl-thumbnailer/archive/refs/tags/v${pkgver}.tar.gz")
+sha256sums=('SKIP')
+
+build() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+  cmake --build build
+}
+
+package() {
+  cd "${srcdir}/${pkgname}-${pkgver}"
+  install -Dm755 build/stlthumbnail.so "${pkgdir}/usr/lib/qt6/plugins/kf6/thumbcreator/stlthumbnail.so"
+}

@@ -1,0 +1,16 @@
+pkgbase = f3d-stl-thumbnailer
+	pkgdesc = KDE Dolphin thumbnailer for STL files, rendered headlessly with F3D
+	pkgver = 1.0.0
+	pkgrel = 1
+	url = https://github.com/paulobartos/f3d-stl-thumbnailer
+	arch = x86_64
+	license = MIT
+	makedepends = cmake
+	makedepends = extra-cmake-modules
+	depends = f3d
+	depends = kio
+	depends = qt6-base
+	source = f3d-stl-thumbnailer-1.0.0.tar.gz::https://github.com/paulobartos/f3d-stl-thumbnailer/archive/refs/tags/v1.0.0.tar.gz
+	sha256sums = SKIP
+
+pkgname = f3d-stl-thumbnailer
