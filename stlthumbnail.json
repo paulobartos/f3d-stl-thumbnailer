@@ -1,0 +1,13 @@
+{
+  "CacheThumbnail": true,
+  "KPlugin": {
+      "MimeTypes": [
+          "model/stl",
+          "application/sla",
+          "application/vnd.ms-pki.stl",
+          "model/x.stl-ascii",
+          "model/x.stl-binary"
+      ],
+      "Name": "STL documents (F3D)"
+  }
+}
