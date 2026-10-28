@@ -6,7 +6,6 @@
 #include <QImage>
 #include <QProcess>
 #include <QUuid>
-#include <QtDebug>
 
 #include <KPluginFactory>
 
@@ -22,6 +21,15 @@ StlCreator::StlCreator(QObject *parent, const QVariantList &args)
 KIO::ThumbnailResult StlCreator::create(const KIO::ThumbnailRequest &request)
 {
     const QString path = request.url().toLocalFile();
+
+    // Binary STL files are frequently misdetected as application/octet-stream
+    // (shared-mime-info only has an ASCII "solid" magic for model/stl), so this
+    // plugin also claims application/octet-stream. Guard by extension so every
+    // other unknown binary fails fast without spawning F3D.
+    if (!path.endsWith(QLatin1String(".stl"), Qt::CaseInsensitive)) {
+        return KIO::ThumbnailResult::fail();
+    }
+
     const int width  = qMax(1, int(request.targetSize().width() * request.devicePixelRatio()));
     const int height = qMax(1, int(request.targetSize().height() * request.devicePixelRatio()));
 
@@ -44,7 +52,6 @@ KIO::ThumbnailResult StlCreator::create(const KIO::ThumbnailRequest &request)
         return KIO::ThumbnailResult::fail();
     }
     if (proc.exitCode() != 0) {
-        qCWarning(LOG_STL) << "F3D render failed:" << proc.readAll();
         QFile::remove(outPath);
         return KIO::ThumbnailResult::fail();
     }

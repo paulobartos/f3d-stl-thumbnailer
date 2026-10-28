@@ -70,6 +70,13 @@ f3d --config=thumbnail --verbose=quiet --output=<tmp.png> --resolution=<w>,<h> <
 then loads the resulting PNG into a `QImage` and returns it to Dolphin. No
 window, no event loop, no display required.
 
+Binary STL files are frequently misdetected as `application/octet-stream`
+(shared-mime-info only ships an ASCII `solid` magic for `model/stl`, so binary
+STL — including Materialise Magics `.stl` with an `MW 1.0` header — falls through
+to the binary fallback). The plugin therefore also claims
+`application/octet-stream` and guards by the `.stl` extension before spawning
+F3D, so every other unknown binary fails fast.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
